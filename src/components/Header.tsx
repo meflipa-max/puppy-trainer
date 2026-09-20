@@ -25,7 +25,7 @@ export const Header: React.FC<HeaderProps> = ({ puppy, onUpdatePuppy, onOpenClic
 
   return (
     <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-stone-200">
-      <div className="max-w-md mx-auto px-4 py-2.5 flex items-center justify-between">
+      <div className="w-full px-4 sm:px-6 py-2.5 flex items-center justify-between">
         {/* Left: Dog info / branding */}
         <div className="flex items-center gap-2.5">
           <div className="w-9 h-9 rounded-xl bg-emerald-600 text-white flex items-center justify-center shadow-xs">

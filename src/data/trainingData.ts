@@ -2,6 +2,85 @@ import { CommandGuide, TechniqueGuide, TrainingSession } from '../types';
 
 export const BASIC_COMMANDS: CommandGuide[] = [
   {
+    id: 'nome',
+    name: 'Riconoscimento del Nome',
+    translation: 'Name Game / Attention Cue',
+    category: 'Autocontrollo',
+    difficulty: 'Principiante',
+    shortDesc: 'Il passo zero: girare la testa e stabilire contatto visivo immediato al suono del proprio nome.',
+    iconName: 'Bell',
+    importance: 'Il nome non è un\'etichetta statica, ma un segnale d\'orientamento: significa "girati verso di me, qualcosa di fantastico sta per accadere!". Senza questo, nessun richiamo o comando potrà mai funzionare.',
+    vocalCue: '[Nome del cane] pronunciato una sola volta con tono allegro e squillante',
+    handSignal: 'Braccia rilassate o mano che guida lo sguardo verso i tuoi occhi.',
+    steps: [
+      {
+        number: 1,
+        title: 'Condizionamento diretto (Fase 1)',
+        description: 'Siediti a 1 metro in stanza tranquilla con bocconcini saporiti. Pronuncia il suo nome una volta sola con voce allegra. Appena i suoi occhi incrociano i tuoi: CLICK (o "SÌ!") e premia all\'istante.'
+      },
+      {
+        number: 2,
+        title: 'Cattura dell\'attenzione con distrazione lieve (Fase 2)',
+        description: 'Aspetta che stia annusando il pavimento. Pronuncia il nome a voce normale. Nel momento esatto in cui alza la testa verso di te, clicca e offri un "jackpot" di 2-3 bocconi consecutivi.'
+      },
+      {
+        number: 3,
+        title: 'Il gioco del nascondino a distanza (Fase 3)',
+        description: 'Spostati in un\'altra stanza o dietro una porta. Chiama il suo nome con entusiasmo. Quando corre a cercarti, festeggia con grande gioia e premia abbondantemente.'
+      },
+      {
+        number: 4,
+        title: 'La regola aurea della chiamata singola',
+        description: 'Se non reagisce al primo colpo, NON ripetere il nome. Fai un piccolo rumore (schiocco di lingua o battito di mani) per ottenere lo sguardo, premia e ritenta poco dopo riducendo le distrazioni ambientali.'
+      }
+    ],
+    commonMistakes: [
+      'Avvelenamento del nome (Name Poisoning): usare il nome per sgridarlo (es. "Max no!"). Il cane imparerà a evitarlo e a temere il proprio nome.',
+      'Effetto mitragliatrice ("Max, Max, Max, Max!"): insegna al cucciolo che può ignorare le prime 4 chiamate prima di voltarsi.',
+      'Pronunciare il nome prima di fare cose spiacevoli (come fare il bagno, pulire le orecchie o rinchiuderlo).'
+    ],
+    trainerTip: 'Ogni singola volta che il cucciolo sente il proprio nome deve pensare: "Accidenti, adoro quando dice il mio nome, vale sempre la pena girarsi!".'
+  },
+  {
+    id: 'touch-target',
+    name: 'Tocco della Mano / Touch',
+    translation: 'Hand Target / Nose Touch',
+    category: 'Obbedienza',
+    difficulty: 'Principiante',
+    shortDesc: 'Toccare il palmo della tua mano con la punta del naso su richiesta.',
+    iconName: 'HandMetal',
+    importance: 'Comando passe-partout fondamentale per i cuccioli: serve a spostare il cane ovunque senza strattonarlo o prenderlo di peso (su bilance veterinarie, in auto, vicino alla gamba, sul divano o sul tappetino) e a canalizzare l\'attenzione.',
+    vocalCue: '"Touch" o "Tocca"',
+    handSignal: 'Palmo verticale aperto a 10-15 cm dal muso del cane con dita rivolte verso il basso.',
+    steps: [
+      {
+        number: 1,
+        title: 'Presenta la mano aperta',
+        description: 'Strofina prima un boccone sul palmo per renderlo profumato, poi porgi la mano aperta a circa 10 cm di lato dal muso del cucciolo.'
+      },
+      {
+        number: 2,
+        title: 'Marca il tocco del tartufo',
+        description: 'Spinto dalla curiosità, il cucciolo si allungherà per annusare la mano: nel millisecondo esatto in cui la punta del naso tocca la tua pelle, fai CLICK e premia con l\'altra mano.'
+      },
+      {
+        number: 3,
+        title: 'Aggiungi la parola chiave',
+        description: 'Dopo 5-8 ripetizioni fluide, pronuncia "Touch" un istante prima di presentare il palmo.'
+      },
+      {
+        number: 4,
+        title: 'Aumenta distanza e angolazioni',
+        description: 'Porgi la mano più in alto, più in basso, o facendo fare al cane 2 o 3 passi per raggiungerla con decisione.'
+      }
+    ],
+    commonMistakes: [
+      'Muoversi verso il cane con la mano (è il cane che deve raggiungere il bersaglio, non la mano che va sul cane).',
+      'Tenere il cibo nella mano bersaglio (il cane leccherà la mano invece di dare un tocco netto con il naso).'
+    ],
+    trainerTip: 'Se il cucciolo è intimidito da una novità o da una visita dal veterinario, chiedergli 2-3 "Touch" alla tua mano lo rassicurerà all\'istante focalizzandolo su un gioco noto!'
+  },
+  {
     id: 'seduto',
     name: 'Seduto',
     translation: 'Sit',

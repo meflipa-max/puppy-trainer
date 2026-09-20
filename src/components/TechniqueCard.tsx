@@ -10,6 +10,8 @@ import {
   Sparkles,
   HelpCircle,
   Lightbulb,
+  Smile,
+  Compass,
 } from 'lucide-react';
 import { TechniqueGuide } from '../types';
 
@@ -25,6 +27,8 @@ const ICON_MAP: Record<string, React.ElementType> = {
   Layers,
   HeartHandshake,
   BatteryCharging,
+  Smile,
+  Compass,
 };
 
 export const TechniqueCard: React.FC<TechniqueCardProps> = ({ technique, onOpenClicker }) => {

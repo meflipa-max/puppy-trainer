@@ -16,6 +16,8 @@ import {
   Eye,
   Footprints,
   Home,
+  Bell,
+  HandMetal,
 } from 'lucide-react';
 import { CommandGuide, TrainingSession } from '../types';
 
@@ -35,6 +37,8 @@ const ICON_MAP: Record<string, React.ElementType> = {
   Eye,
   Footprints,
   Home,
+  Bell,
+  HandMetal,
 };
 
 export const CommandDetailModal: React.FC<CommandDetailModalProps> = ({
@@ -66,13 +70,13 @@ export const CommandDetailModal: React.FC<CommandDetailModalProps> = ({
             <div className="w-11 h-11 rounded-2xl bg-emerald-100 text-emerald-700 flex items-center justify-center">
               <IconComponent className="w-6 h-6" />
             </div>
-            <div>
-              <div className="flex items-center gap-2">
-                <h2 className="text-lg font-bold text-stone-900">{command.name}</h2>
+            <div className="min-w-0 flex-1 pr-2">
+              <div className="flex items-center gap-1.5 flex-wrap">
+                <h2 className="text-base sm:text-lg font-bold text-stone-900 leading-snug">{command.name}</h2>
                 <span className="text-xs text-stone-500 font-mono">({command.translation})</span>
               </div>
-              <p className="text-xs text-stone-500">
-                Difficoltà: <span className="font-semibold text-stone-700">{command.difficulty}</span> • Categoria: {command.category}
+              <p className="text-xs text-stone-500 mt-0.5">
+                Difficoltà: <span className="font-semibold text-stone-700">{command.difficulty}</span> • {command.category}
               </p>
             </div>
           </div>

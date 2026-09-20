@@ -106,15 +106,15 @@ export const GuideSection: React.FC<GuideSectionProps> = ({
           type="button"
           id="subtab-comandi"
           onClick={() => handleSubTabChange('comandi')}
-          className={`flex-1 py-2.5 px-3 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 ${
+          className={`flex-1 py-2.5 px-3 rounded-xl text-xs sm:text-sm font-bold transition-all flex items-center justify-center gap-1.5 whitespace-nowrap ${
             activeSubTab === 'comandi'
               ? 'bg-white text-stone-900 shadow-xs'
               : 'text-stone-600 hover:text-stone-900'
           }`}
         >
-          <BookOpen className="w-4 h-4 text-emerald-600" />
-          Comandi Base
-          <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-stone-100 text-stone-600">
+          <BookOpen className="w-4 h-4 text-emerald-600 shrink-0" />
+          <span>Comandi Base</span>
+          <span className="text-[10px] sm:text-xs font-semibold px-1.5 py-0.5 rounded-full bg-stone-100 text-stone-600">
             {BASIC_COMMANDS.length}
           </span>
         </button>
@@ -123,22 +123,22 @@ export const GuideSection: React.FC<GuideSectionProps> = ({
           type="button"
           id="subtab-rinforzo"
           onClick={() => handleSubTabChange('rinforzo')}
-          className={`flex-1 py-2.5 px-3 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 ${
+          className={`flex-1 py-2.5 px-3 rounded-xl text-xs sm:text-sm font-bold transition-all flex items-center justify-center gap-1.5 whitespace-nowrap ${
             activeSubTab === 'rinforzo'
               ? 'bg-white text-stone-900 shadow-xs'
               : 'text-stone-600 hover:text-stone-900'
           }`}
         >
-          <Sparkles className="w-4 h-4 text-amber-500" />
-          Rinforzo Positivo
-          <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-stone-100 text-stone-600">
+          <Sparkles className="w-4 h-4 text-amber-500 shrink-0" />
+          <span>Rinforzo Positivo</span>
+          <span className="text-[10px] sm:text-xs font-semibold px-1.5 py-0.5 rounded-full bg-stone-100 text-stone-600">
             {POSITIVE_REINFORCEMENT_TECHNIQUES.length}
           </span>
         </button>
       </div>
 
       {/* Search and Filters */}
-      <div className="space-y-2">
+      <div className="space-y-2.5">
         <div className="relative">
           <Search className="w-4 h-4 text-stone-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
           <input
@@ -148,16 +148,16 @@ export const GuideSection: React.FC<GuideSectionProps> = ({
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder={
               activeSubTab === 'comandi'
-                ? 'Cerca comandi (es. Seduto, Resta, Vieni)...'
-                : 'Cerca tecniche (es. Clicker, Premi, 3D, Morsi)...'
+                ? 'Cerca comandi (es. Nome, Seduto, Resta, Vieni)...'
+                : 'Cerca tecniche (es. Clicker, Premi, 3D, Morsi, Socializzazione)...'
             }
-            className="w-full bg-white rounded-xl border border-stone-200 py-2.5 pl-10 pr-4 text-xs placeholder:text-stone-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
+            className="w-full bg-white rounded-xl border border-stone-200 py-2.5 pl-10 pr-4 text-xs sm:text-sm placeholder:text-stone-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
           />
           {searchQuery && (
             <button
               type="button"
               onClick={() => setSearchQuery('')}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-stone-400 hover:text-stone-600"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-stone-400 hover:text-stone-600 p-1"
             >
               ✕
             </button>
@@ -166,8 +166,8 @@ export const GuideSection: React.FC<GuideSectionProps> = ({
 
         {/* Difficulty Filter Chips (Shown for Comandi) */}
         {activeSubTab === 'comandi' && (
-          <div className="flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-none">
-            <span className="text-[11px] font-semibold text-stone-500 flex items-center gap-1 pl-1 shrink-0">
+          <div className="flex items-center gap-2 overflow-x-auto pb-1.5 pt-0.5 scrollbar-none">
+            <span className="text-[11px] sm:text-xs font-semibold text-stone-500 flex items-center gap-1 pl-1 shrink-0">
               <Filter className="w-3 h-3" /> Difficoltà:
             </span>
             {(['Tutti', 'Principiante', 'Intermedio', 'Avanzato'] as const).map((diff) => (
@@ -176,7 +176,7 @@ export const GuideSection: React.FC<GuideSectionProps> = ({
                 type="button"
                 id={`filter-diff-${diff}`}
                 onClick={() => setDifficultyFilter(diff)}
-                className={`text-xs px-2.5 py-1 rounded-lg font-medium shrink-0 transition-colors ${
+                className={`text-xs px-3 py-1 rounded-lg font-medium shrink-0 transition-colors ${
                   difficultyFilter === diff
                     ? 'bg-emerald-600 text-white shadow-xs'
                     : 'bg-white text-stone-600 border border-stone-200 hover:bg-stone-50'
@@ -191,9 +191,9 @@ export const GuideSection: React.FC<GuideSectionProps> = ({
 
       {/* Content for Comandi Base */}
       {activeSubTab === 'comandi' && (
-        <div className="space-y-3">
+        <div className="space-y-4">
           {filteredCommands.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 sm:gap-4">
               {filteredCommands.map((command) => (
                 <CommandCard
                   key={command.id}

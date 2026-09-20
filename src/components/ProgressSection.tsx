@@ -225,7 +225,7 @@ export const ProgressSection: React.FC<ProgressSectionProps> = ({
               <Award className="w-4 h-4" />
             </div>
             <div className="text-xl font-black text-white">
-              {masteredCount} <span className="text-xs font-normal text-stone-300">/ 8</span>
+              {masteredCount} <span className="text-xs font-normal text-stone-300">/ {BASIC_COMMANDS.length}</span>
             </div>
           </div>
         </div>

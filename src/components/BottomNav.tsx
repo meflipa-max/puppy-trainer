@@ -15,7 +15,7 @@ export const BottomNav: React.FC<BottomNavProps> = ({
 }) => {
   return (
     <nav className="fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-stone-200 safe-area-bottom">
-      <div className="max-w-md mx-auto px-4 h-16 flex items-center justify-between">
+      <div className="max-w-2xl lg:max-w-3xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
         {/* Section 1: Guida Cuccioli (Cose da sapere) */}
         <button
           type="button"

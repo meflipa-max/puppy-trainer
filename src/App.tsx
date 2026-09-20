@@ -38,6 +38,13 @@ export default function App() {
       if (saved) {
         const parsed = JSON.parse(saved);
         if (Array.isArray(parsed) && parsed.length > 0) {
+          const existingCommandIds = new Set(parsed.map((s: TrainingSession) => s.commandId));
+          const missingInitials = INITIAL_TRAINING_SESSIONS.filter(
+            (initSess) => !existingCommandIds.has(initSess.commandId)
+          );
+          if (missingInitials.length > 0) {
+            return [...parsed, ...missingInitials];
+          }
           return parsed;
         }
       }
@@ -95,10 +102,10 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-stone-200/60 flex justify-center selection:bg-emerald-100 selection:text-emerald-900 font-sans">
-      {/* Mobile-constrained app container */}
-      <div className="w-full max-w-md bg-stone-50 min-h-screen flex flex-col shadow-xl border-x border-stone-200/70 relative">
-        {/* Sticky Mobile Header */}
+    <div className="min-h-screen bg-stone-100 flex justify-center selection:bg-emerald-100 selection:text-emerald-900 font-sans">
+      {/* Responsive app container - full width on mobile, nicely framed on tablet/desktop */}
+      <div className="w-full max-w-2xl lg:max-w-3xl bg-stone-50 min-h-screen flex flex-col shadow-xl border-x border-stone-200/70 relative">
+        {/* Sticky Mobile/Desktop Header */}
         <Header
           puppy={puppy}
           onUpdatePuppy={setPuppy}
@@ -106,7 +113,7 @@ export default function App() {
         />
 
         {/* Main Content Area */}
-        <main className="flex-1 p-4 overflow-y-auto">
+        <main className="flex-1 p-3.5 sm:p-5 md:p-6 overflow-y-auto pb-24">
           {currentSection === 'guida' ? (
             <GuideSection
               sessions={sessions}

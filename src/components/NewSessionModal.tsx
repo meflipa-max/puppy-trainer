@@ -26,7 +26,7 @@ export const NewSessionModal: React.FC<NewSessionModalProps> = ({
   onClose,
   onSave,
 }) => {
-  const [selectedCommandId, setSelectedCommandId] = useState<string>('seduto');
+  const [selectedCommandId, setSelectedCommandId] = useState<string>('nome');
   const [customCommandName, setCustomCommandName] = useState<string>('');
   const [isCustomCommand, setIsCustomCommand] = useState<boolean>(false);
 

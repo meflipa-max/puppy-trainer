@@ -7,13 +7,19 @@ import {
   CheckCircle,
   HelpCircle,
   SlidersHorizontal,
+  HeartPulse,
+  AlertTriangle,
+  PhoneCall,
+  ShieldAlert,
 } from 'lucide-react';
 import { CommandGuide, TechniqueGuide, TrainingSession, GuideSubSection, CommandDifficulty } from '../types';
 import { BASIC_COMMANDS, POSITIVE_REINFORCEMENT_TECHNIQUES } from '../data/trainingData';
+import { HEALTH_TOPICS } from '../data/healthData';
 import { CommandCard } from './CommandCard';
 import { CommandDetailModal } from './CommandDetailModal';
 import { TechniqueCard } from './TechniqueCard';
 import { ClickerWidget } from './ClickerWidget';
+import { HealthTopicCard } from './HealthTopicCard';
 
 interface GuideSectionProps {
   sessions: TrainingSession[];
@@ -41,6 +47,7 @@ export const GuideSection: React.FC<GuideSectionProps> = ({
 
   const [searchQuery, setSearchQuery] = useState('');
   const [difficultyFilter, setDifficultyFilter] = useState<'Tutti' | CommandDifficulty>('Tutti');
+  const [healthCategoryFilter, setHealthCategoryFilter] = useState<'tutti' | 'vaccini' | 'sterilizzazione' | 'emergenza'>('tutti');
   const [selectedCommand, setSelectedCommand] = useState<CommandGuide | null>(null);
   const [showClickerEmbedded, setShowClickerEmbedded] = useState(false);
 
@@ -66,6 +73,22 @@ export const GuideSection: React.FC<GuideSectionProps> = ({
       tech.summary.toLowerCase().includes(searchQuery.toLowerCase()) ||
       tech.tag.toLowerCase().includes(searchQuery.toLowerCase())
     );
+  });
+
+  // Filter health topics
+  const filteredHealthTopics = HEALTH_TOPICS.filter((topic) => {
+    const matchesSearch =
+      topic.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      topic.subtitle.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      topic.summary.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (topic.whatCouldHappen &&
+        (topic.whatCouldHappen.scenario.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          topic.whatCouldHappen.symptoms.some((s) => s.toLowerCase().includes(searchQuery.toLowerCase()))));
+
+    const matchesCategory =
+      healthCategoryFilter === 'tutti' || topic.category === healthCategoryFilter;
+
+    return matchesSearch && matchesCategory;
   });
 
   return (
@@ -101,20 +124,20 @@ export const GuideSection: React.FC<GuideSectionProps> = ({
       )}
 
       {/* Sub-Section Switcher Pills */}
-      <div className="flex p-1 bg-stone-200/80 rounded-2xl gap-1">
+      <div className="flex p-1 bg-stone-200/80 rounded-2xl gap-1 overflow-x-auto scrollbar-none">
         <button
           type="button"
           id="subtab-comandi"
           onClick={() => handleSubTabChange('comandi')}
-          className={`flex-1 py-2.5 px-3 rounded-xl text-xs sm:text-sm font-bold transition-all flex items-center justify-center gap-1.5 whitespace-nowrap ${
+          className={`flex-1 py-2 px-2.5 sm:px-3 rounded-xl text-xs sm:text-sm font-bold transition-all flex items-center justify-center gap-1.5 whitespace-nowrap shrink-0 ${
             activeSubTab === 'comandi'
               ? 'bg-white text-stone-900 shadow-xs'
               : 'text-stone-600 hover:text-stone-900'
           }`}
         >
           <BookOpen className="w-4 h-4 text-emerald-600 shrink-0" />
-          <span>Comandi Base</span>
-          <span className="text-[10px] sm:text-xs font-semibold px-1.5 py-0.5 rounded-full bg-stone-100 text-stone-600">
+          <span>Comandi</span>
+          <span className="text-[10px] sm:text-xs font-semibold px-1.5 py-0.2 rounded-full bg-stone-100 text-stone-600">
             {BASIC_COMMANDS.length}
           </span>
         </button>
@@ -123,16 +146,33 @@ export const GuideSection: React.FC<GuideSectionProps> = ({
           type="button"
           id="subtab-rinforzo"
           onClick={() => handleSubTabChange('rinforzo')}
-          className={`flex-1 py-2.5 px-3 rounded-xl text-xs sm:text-sm font-bold transition-all flex items-center justify-center gap-1.5 whitespace-nowrap ${
+          className={`flex-1 py-2 px-2.5 sm:px-3 rounded-xl text-xs sm:text-sm font-bold transition-all flex items-center justify-center gap-1.5 whitespace-nowrap shrink-0 ${
             activeSubTab === 'rinforzo'
               ? 'bg-white text-stone-900 shadow-xs'
               : 'text-stone-600 hover:text-stone-900'
           }`}
         >
           <Sparkles className="w-4 h-4 text-amber-500 shrink-0" />
-          <span>Rinforzo Positivo</span>
-          <span className="text-[10px] sm:text-xs font-semibold px-1.5 py-0.5 rounded-full bg-stone-100 text-stone-600">
+          <span>Rinforzo</span>
+          <span className="text-[10px] sm:text-xs font-semibold px-1.5 py-0.2 rounded-full bg-stone-100 text-stone-600">
             {POSITIVE_REINFORCEMENT_TECHNIQUES.length}
+          </span>
+        </button>
+
+        <button
+          type="button"
+          id="subtab-salute"
+          onClick={() => handleSubTabChange('salute')}
+          className={`flex-1 py-2 px-2.5 sm:px-3 rounded-xl text-xs sm:text-sm font-bold transition-all flex items-center justify-center gap-1.5 whitespace-nowrap shrink-0 ${
+            activeSubTab === 'salute'
+              ? 'bg-white text-rose-700 shadow-xs'
+              : 'text-stone-600 hover:text-stone-900'
+          }`}
+        >
+          <HeartPulse className="w-4 h-4 text-rose-500 shrink-0" />
+          <span>Salute & Emergenze</span>
+          <span className="text-[10px] sm:text-xs font-semibold px-1.5 py-0.2 rounded-full bg-rose-50 text-rose-700">
+            {HEALTH_TOPICS.length}
           </span>
         </button>
       </div>
@@ -149,7 +189,9 @@ export const GuideSection: React.FC<GuideSectionProps> = ({
             placeholder={
               activeSubTab === 'comandi'
                 ? 'Cerca comandi (es. Nome, Seduto, Resta, Vieni)...'
-                : 'Cerca tecniche (es. Clicker, Premi, 3D, Morsi, Socializzazione)...'
+                : activeSubTab === 'rinforzo'
+                ? 'Cerca tecniche (es. Clicker, Premi, 3D, Morsi, Socializzazione)...'
+                : 'Cerca per salute/emergenza (es. Vaccini, Sterilizzazione, Veleni, Torsione, Heimlich)...'
             }
             className="w-full bg-white rounded-xl border border-stone-200 py-2.5 pl-10 pr-4 text-xs sm:text-sm placeholder:text-stone-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
           />
@@ -183,6 +225,35 @@ export const GuideSection: React.FC<GuideSectionProps> = ({
                 }`}
               >
                 {diff}
+              </button>
+            ))}
+          </div>
+        )}
+
+        {/* Category Filter Chips (Shown for Salute) */}
+        {activeSubTab === 'salute' && (
+          <div className="flex items-center gap-2 overflow-x-auto pb-1.5 pt-0.5 scrollbar-none">
+            <span className="text-[11px] sm:text-xs font-semibold text-stone-500 flex items-center gap-1 pl-1 shrink-0">
+              <Filter className="w-3 h-3" /> Categoria:
+            </span>
+            {[
+              { id: 'tutti', label: 'Tutti' },
+              { id: 'emergenza', label: '🚨 Emergenze & Pronto Soccorso' },
+              { id: 'vaccini', label: '💉 Vaccini & Prevenzione' },
+              { id: 'sterilizzazione', label: '🩺 Sterilizzazione' },
+            ].map((cat) => (
+              <button
+                key={cat.id}
+                type="button"
+                id={`filter-health-${cat.id}`}
+                onClick={() => setHealthCategoryFilter(cat.id as any)}
+                className={`text-xs px-3 py-1 rounded-lg font-medium shrink-0 transition-colors ${
+                  healthCategoryFilter === cat.id
+                    ? 'bg-rose-700 text-white shadow-xs'
+                    : 'bg-white text-stone-600 border border-stone-200 hover:bg-stone-50'
+                }`}
+              >
+                {cat.label}
               </button>
             ))}
           </div>
@@ -248,6 +319,51 @@ export const GuideSection: React.FC<GuideSectionProps> = ({
                 className="mt-3 text-xs font-semibold text-emerald-700 bg-emerald-50 px-3 py-1.5 rounded-lg"
               >
                 Mostra tutte le tecniche
+              </button>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Content for Salute, Vaccini, Sterilizzazione & Emergenze */}
+      {activeSubTab === 'salute' && (
+        <div className="space-y-4">
+          {/* Emergency Alert Banner */}
+          <div className="bg-gradient-to-r from-rose-900 via-rose-800 to-amber-900 rounded-2xl p-4 text-white shadow-sm flex items-start gap-3.5">
+            <div className="w-9 h-9 rounded-xl bg-white/20 text-white flex items-center justify-center shrink-0 mt-0.5">
+              <ShieldAlert className="w-5 h-5 text-rose-200" />
+            </div>
+            <div className="text-xs space-y-1">
+              <span className="font-bold text-sm text-white block">
+                Regola d'Oro del Pronto Soccorso Veterinario
+              </span>
+              <p className="text-rose-100 leading-relaxed">
+                In caso di emergenza grave (torsione gastrica, ingestione di veleni, soffocamento), <strong>telefona sempre alla clinica H24</strong> prima di partire. Avvisare con 10 minuti di anticipo consente al personale di preparare farmaci emetici, ossigeno e la sala chirurgica.
+              </p>
+            </div>
+          </div>
+
+          {/* Cards List */}
+          {filteredHealthTopics.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 sm:gap-4">
+              {filteredHealthTopics.map((topic) => (
+                <HealthTopicCard key={topic.id} topic={topic} />
+              ))}
+            </div>
+          ) : (
+            <div className="bg-white rounded-2xl border border-stone-200 p-8 text-center">
+              <HelpCircle className="w-8 h-8 text-stone-400 mx-auto mb-2" />
+              <p className="text-sm font-semibold text-stone-800">Nessun argomento sanitario trovato</p>
+              <p className="text-xs text-stone-500 mt-1">Prova a cercare con altri termini (es. veleno, vaccino, calore).</p>
+              <button
+                type="button"
+                onClick={() => {
+                  setSearchQuery('');
+                  setHealthCategoryFilter('tutti');
+                }}
+                className="mt-3 text-xs font-semibold text-rose-700 bg-rose-50 px-3 py-1.5 rounded-lg"
+              >
+                Mostra tutte le guide
               </button>
             </div>
           )}

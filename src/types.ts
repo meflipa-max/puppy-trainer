@@ -1,5 +1,5 @@
 export type MainSection = 'guida' | 'progressi';
-export type GuideSubSection = 'comandi' | 'rinforzo';
+export type GuideSubSection = 'comandi' | 'rinforzo' | 'salute';
 
 export type CommandDifficulty = 'Principiante' | 'Intermedio' | 'Avanzato';
 
@@ -61,5 +61,7 @@ export interface TrainingSession {
 export interface PuppyProfile {
   name: string;
   breed?: string;
-  ageMonths?: number;
+  birthDate?: string; // Formato YYYY-MM-DD
+  ageMonths?: number; // mantenuto per compatibilità
+  photoUrl?: string; // Base64 data URL o link immagine
 }

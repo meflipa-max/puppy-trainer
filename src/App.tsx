@@ -7,6 +7,7 @@ import { GuideSection } from './components/GuideSection';
 import { ProgressSection } from './components/ProgressSection';
 import { NewSessionModal } from './components/NewSessionModal';
 import { ClickerModal } from './components/ClickerModal';
+import { estimateBirthDateFromMonths } from './utils/puppyAge';
 
 const SESSIONS_STORAGE_KEY = 'puppy_trainer_sessions_v1';
 const PUPPY_STORAGE_KEY = 'puppy_trainer_profile_v1';
@@ -16,17 +17,24 @@ export default function App() {
   const [currentSection, setCurrentSection] = useState<MainSection>('guida');
   const [guideSubTab, setGuideSubTab] = useState<GuideSubSection>('comandi');
 
-  // Puppy profile state with localStorage persistence
+  // Puppy profile state with localStorage persistence and birthDate
   const [puppy, setPuppy] = useState<PuppyProfile>(() => {
     try {
       const saved = localStorage.getItem(PUPPY_STORAGE_KEY);
-      if (saved) return JSON.parse(saved);
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (!parsed.birthDate) {
+          parsed.birthDate = estimateBirthDateFromMonths(parsed.ageMonths || 4);
+        }
+        return parsed;
+      }
     } catch {
       // Fallback
     }
     return {
       name: 'Max',
       breed: 'Labrador / Meticcio',
+      birthDate: estimateBirthDateFromMonths(4),
       ageMonths: 4,
     };
   });
@@ -123,6 +131,7 @@ export default function App() {
             />
           ) : (
             <ProgressSection
+              puppy={puppy}
               sessions={sessions}
               onOpenNewSession={handleOpenLogWithCommand}
               onDeleteSession={handleDeleteSession}

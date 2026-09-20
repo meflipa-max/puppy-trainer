@@ -14,11 +14,14 @@ import {
   Smile,
   AlertTriangle,
   RotateCcw,
+  Dog,
 } from 'lucide-react';
-import { TrainingSession, CommandGuide } from '../types';
+import { TrainingSession, CommandGuide, PuppyProfile } from '../types';
 import { BASIC_COMMANDS } from '../data/trainingData';
+import { calculatePuppyAge } from '../utils/puppyAge';
 
 interface ProgressSectionProps {
+  puppy?: PuppyProfile;
   sessions: TrainingSession[];
   onOpenNewSession: (command?: CommandGuide | null) => void;
   onDeleteSession: (sessionId: string) => void;
@@ -26,6 +29,7 @@ interface ProgressSectionProps {
 }
 
 export const ProgressSection: React.FC<ProgressSectionProps> = ({
+  puppy,
   sessions,
   onOpenNewSession,
   onDeleteSession,
@@ -33,6 +37,10 @@ export const ProgressSection: React.FC<ProgressSectionProps> = ({
 }) => {
   const [filterCommand, setFilterCommand] = useState<string>('all');
   const [searchNotes, setSearchNotes] = useState<string>('');
+
+  const currentPuppyAge = useMemo(() => {
+    return calculatePuppyAge(puppy?.birthDate);
+  }, [puppy?.birthDate]);
 
   // 1. Calculate Daily Streak (consecutive days ending today or yesterday)
   const streak = useMemo(() => {
@@ -189,6 +197,34 @@ export const ProgressSection: React.FC<ProgressSectionProps> = ({
           La costanza quotidiana crea abitudini durature nel tuo cucciolo. Guarda le tue statistiche e registra ogni piccolo traguardo.
         </p>
 
+        {/* Dynamic age & puppy developmental milestone pill */}
+        {currentPuppyAge && (
+          <div className="mt-3.5 p-3 rounded-2xl bg-white/10 border border-white/15 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 text-xs">
+            <div className="flex items-center gap-2.5">
+              <div className="w-8 h-8 rounded-xl bg-emerald-600 text-white flex items-center justify-center shrink-0 overflow-hidden border border-white/20 shadow-2xs">
+                {puppy?.photoUrl ? (
+                  <img
+                    src={puppy.photoUrl}
+                    alt={puppy.name}
+                    className="w-full h-full object-cover"
+                    referrerPolicy="no-referrer"
+                  />
+                ) : (
+                  <Dog className="w-4 h-4 text-emerald-300" />
+                )}
+              </div>
+              <span className="font-semibold text-stone-200">
+                {puppy?.name || 'Il cucciolo'} oggi ha: <strong className="text-white font-bold">{currentPuppyAge.formattedAge}</strong>
+              </span>
+            </div>
+            <div className="flex items-center gap-1.5 flex-wrap">
+              <span className="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-400/30">
+                {currentPuppyAge.stageName}
+              </span>
+            </div>
+          </div>
+        )}
+
         {/* 4 Key Metric Cards */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 mt-4">
           <div className="bg-white/10 backdrop-blur-xs rounded-2xl p-3 border border-white/10">
@@ -335,6 +371,7 @@ export const ProgressSection: React.FC<ProgressSectionProps> = ({
             {filteredSessions.map((session) => {
               const mood = getMoodBadge(session.puppyMood);
               const distraction = getDistractionBadge(session.distractionLevel);
+              const sessionAge = puppy?.birthDate ? calculatePuppyAge(puppy.birthDate, session.date) : null;
 
               return (
                 <div
@@ -351,6 +388,14 @@ export const ProgressSection: React.FC<ProgressSectionProps> = ({
                         <span className="text-[11px] text-stone-400">
                           {session.date} {session.time ? `alle ${session.time}` : ''}
                         </span>
+                        {sessionAge && sessionAge.daysTotal >= 0 && (
+                          <span
+                            className="text-[10px] font-semibold text-stone-600 bg-stone-100 px-2 py-0.5 rounded-md border border-stone-200/60"
+                            title={`Addestrato all'età di ${sessionAge.daysTotal} giorni`}
+                          >
+                            a {sessionAge.formattedAge}
+                          </span>
+                        )}
                         <span className="text-[11px] font-semibold text-emerald-700 bg-emerald-50 px-2 py-0.2 rounded-md">
                           {session.durationMinutes} min
                         </span>

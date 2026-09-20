@@ -331,4 +331,92 @@ export const HEALTH_TOPICS: HealthTopic[] = [
     vetAdvice:
       'Regola d\'oro per i giochi: la dimensione del giocattolo deve essere sempre maggiore della distanza tra i premolari del cucciolo.',
   },
+
+  // 8. PERICOLI SALENTO: FORASACCHI & SPIGHE SECCHE
+  {
+    id: 'emergenza-forasacchi-salento',
+    category: 'emergenza',
+    categoryLabel: 'Pronto Soccorso Locale',
+    title: 'Forasacchi & Spighe Secche (Campagne & Litorale Salentino)',
+    subtitle: 'Da aprile a ottobre, le spighe secche delle graminacee penetrano in orecchie, naso e zampe migrando all\'interno.',
+    badge: 'Pericolo N.1 Salento',
+    badgeColor: 'bg-amber-100 text-amber-950 border-amber-300',
+    iconName: 'Footprints',
+    summary:
+      'I forasacchi sono frecce vegetali a senso unico: per la conformazione delle loro ariste possono solo avanzare nel corpo dell\'animale, mai indietreggiare spontaneamente.',
+    whatCouldHappen: {
+      scenario:
+        'Passeggiata tra i muretti a secco, oliveti o sentieri sterrati vicino alla costa (es. Ciolo, Leuca, campagne di Castrignano) dove l\'erba alta è secca.',
+      symptoms: [
+        'Nell\'ORECCHIO: scuote improvvisamente la testa con foga, la tiene inclinata e geme se sfiorato. Rischio perforazione timpanica in poche ore.',
+        'Nel NASO: starnuti violentissimi e consecutivi a raffica (anche 20 di fila), con possibile emissione di gocce di sangue da una narice.',
+        'Nella ZAMPA (interdigitale): zoppia improvvisa, leccamento continuo tra le dita della zampa, formazione di una bolla rossa purulenta (ascesso).',
+        'Nell\'OCCHIO: occhio improvvisamente chiuso, lacrimazione abbondante e pus (rischio ulcera corneale profonda).',
+      ],
+    },
+    keyPoints: [
+      {
+        title: 'Ispezione Obbligatoria a Fine Passeggiata',
+        description: 'Controlla sempre accuratamente: spazi tra i polpastrelli, interno padiglioni auricolari, ascelle, inguine e sottomento appena torni a casa.',
+      },
+      {
+        title: 'Forasacco nel Naso: Corsa Immediata',
+        description: 'Se starnutisce a raffica con sangue, vai subito dal veterinario prima che la spiga risalga le vie aeree fino alla laringe o ai polmoni.',
+      },
+      {
+        title: 'Tosatura Igienica delle Zampe',
+        description: 'Se il cane ha pelo lungo o folto tra le dita (es. Cocker, Setter, Golden, Barboncini), tieni il pelo rasato tra i polpastrelli per tutta l\'estate.',
+      },
+    ],
+    criticalDoNot: [
+      'NON mettere MAI gocce auricolari oleose o detergenti nell\'orecchio prima della visita: se la spiga ha lacerato il timpano, il liquido entra nell\'orecchio medio causando sindrome vestibolare e sordità permanente!',
+      'NON usare pinzette alla cieca nel condotto uditivo o nel naso: spingeresti il forasacco ancora più a fondo.',
+    ],
+    vetAdvice:
+      'L\'estrazione dall\'orecchio o dal naso richiede una pinza di Hartmann speciale con otoscopio/rinoscopio ed eventuale sedazione leggera.',
+  },
+
+  // 9. SALENTO & PREVENZIONE: LEISHMANIOSI & FLEBOTOMI
+  {
+    id: 'vaccini-leishmaniosi-salento',
+    category: 'vaccini',
+    categoryLabel: 'Prevenzione Endemica',
+    title: 'Leishmaniosi & Flebotomi (Basso Salento)',
+    subtitle: 'Il Salento è un\'area ad alta endemia. Come proteggere il cucciolo dal tramonto all\'alba.',
+    badge: 'Protezione Continua',
+    badgeColor: 'bg-emerald-100 text-emerald-950 border-emerald-300',
+    iconName: 'Syringe',
+    summary:
+      'Trasmessa da microscopici moscerini detti flebotomi (o pappataci) attivi da maggio a novembre nelle ore crepuscolari e notturne, soprattutto vicino a muretti a secco e zone umide.',
+    whatCouldHappen: {
+      scenario:
+        'Cane che dorme all\'aperto in giardino in Salento senza collare repellente specifico o trattamenti antiparassitari adeguati.',
+      symptoms: [
+        'Perdita di pelo a occhiale intorno agli occhi (alopecia periorbitale).',
+        'Crescita anomala ed esagerata delle unghie (onicogrifosi).',
+        'Ulcere cutanee sul naso e sui margini delle orecchie che non cicatrizzano.',
+        'Dimagramento progressivo, febbre intermittente e danno renale cronico irreversibile.',
+      ],
+    },
+    keyPoints: [
+      {
+        title: 'Strategia a Doppia Barriera (Collare + Pipetta/Compresse)',
+        description: 'Usa collari repellenti autorizzati per flebotomi (es. Seresto, Scalibor) uniti a spot-on con effetto abbattente antifeeding.',
+      },
+      {
+        title: 'Evitare le Ore Critiche all\'Aperto',
+        description: 'I pappataci pungono tra il tramonto e le prime luci dell\'alba. Fai dormire il cucciolo all\'interno e metti zanzariere alle finestre.',
+      },
+      {
+        title: 'Vaccinazione e Test Sierologico Annuale',
+        description: 'A partire dai 6 mesi è possibile eseguire la vaccinazione specifica (Letifend). Esegui ogni primavera il test rapido su goccia di sangue per diagnosi precoce.',
+      },
+    ],
+    criticalDoNot: [
+      'NON usare normali insetticidi o diffusori chimici ad altezza cane che possono intossicarlo.',
+      'NON saltare la protezione nei mesi di settembre e ottobre: il clima mite salentino prolunga l\'attività dei pappataci fino all\'autunno inoltrato.',
+    ],
+    vetAdvice:
+      'Chiedi al veterinario la profilassi combinata: oltre alla Leishmania, in Salento è fondamentale prevenire anche la Filaria cardiopolmonare trasmessa dalle comuni zanzare.',
+  },
 ];

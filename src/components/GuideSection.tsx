@@ -11,6 +11,10 @@ import {
   AlertTriangle,
   PhoneCall,
   ShieldAlert,
+  Scale,
+  Activity,
+  BriefcaseMedical,
+  MapPin,
 } from 'lucide-react';
 import { CommandGuide, TechniqueGuide, TrainingSession, GuideSubSection, CommandDifficulty } from '../types';
 import { BASIC_COMMANDS, POSITIVE_REINFORCEMENT_TECHNIQUES } from '../data/trainingData';
@@ -20,6 +24,10 @@ import { CommandDetailModal } from './CommandDetailModal';
 import { TechniqueCard } from './TechniqueCard';
 import { ClickerWidget } from './ClickerWidget';
 import { HealthTopicCard } from './HealthTopicCard';
+import { HealthEmergencyHub } from './HealthEmergencyHub';
+import { ChocolateToxicityCalculator } from './ChocolateToxicityCalculator';
+import { PuppyVitalSignsChecker } from './PuppyVitalSignsChecker';
+import { FirstAidKitChecklist } from './FirstAidKitChecklist';
 
 interface GuideSectionProps {
   sessions: TrainingSession[];
@@ -48,6 +56,7 @@ export const GuideSection: React.FC<GuideSectionProps> = ({
   const [searchQuery, setSearchQuery] = useState('');
   const [difficultyFilter, setDifficultyFilter] = useState<'Tutti' | CommandDifficulty>('Tutti');
   const [healthCategoryFilter, setHealthCategoryFilter] = useState<'tutti' | 'vaccini' | 'sterilizzazione' | 'emergenza'>('tutti');
+  const [healthToolView, setHealthToolView] = useState<'tutti' | 'sos' | 'calcolatore' | 'parametri' | 'kit' | 'guide'>('tutti');
   const [selectedCommand, setSelectedCommand] = useState<CommandGuide | null>(null);
   const [showClickerEmbedded, setShowClickerEmbedded] = useState(false);
 
@@ -325,46 +334,106 @@ export const GuideSection: React.FC<GuideSectionProps> = ({
         </div>
       )}
 
-      {/* Content for Salute, Vaccini, Sterilizzazione & Emergenze */}
+      {/* Content for Salute, Vaccini, Sterilizzazione & Emergenze (Coltellino Svizzero) */}
       {activeSubTab === 'salute' && (
         <div className="space-y-4">
-          {/* Emergency Alert Banner */}
-          <div className="bg-gradient-to-r from-rose-900 via-rose-800 to-amber-900 rounded-2xl p-4 text-white shadow-sm flex items-start gap-3.5">
-            <div className="w-9 h-9 rounded-xl bg-white/20 text-white flex items-center justify-center shrink-0 mt-0.5">
-              <ShieldAlert className="w-5 h-5 text-rose-200" />
-            </div>
-            <div className="text-xs space-y-1">
-              <span className="font-bold text-sm text-white block">
-                Regola d'Oro del Pronto Soccorso Veterinario
-              </span>
-              <p className="text-rose-100 leading-relaxed">
-                In caso di emergenza grave (torsione gastrica, ingestione di veleni, soffocamento), <strong>telefona sempre alla clinica H24</strong> prima di partire. Avvisare con 10 minuti di anticipo consente al personale di preparare farmaci emetici, ossigeno e la sala chirurgica.
-              </p>
-            </div>
+          {/* Swiss Knife Tool Switcher Bar */}
+          <div className="bg-stone-100 p-1.5 rounded-2xl flex items-center gap-1.5 overflow-x-auto scrollbar-none border border-stone-200">
+            <span className="text-[10px] font-black uppercase tracking-wider text-stone-500 pl-2 shrink-0">
+              Coltellino Svizzero:
+            </span>
+            {[
+              { id: 'tutti', label: 'Panoramica Completa', icon: HeartPulse },
+              { id: 'sos', label: '🚨 SOS Castrignano & H24', icon: PhoneCall },
+              { id: 'calcolatore', label: '⚖️ Calcolatore Tossicità', icon: Scale },
+              { id: 'parametri', label: '🩺 Triage Parametri Vitali', icon: Activity },
+              { id: 'kit', label: '🧰 Kit Primo Soccorso', icon: BriefcaseMedical },
+              { id: 'guide', label: `📚 Guide & Salento (${filteredHealthTopics.length})`, icon: BookOpen },
+            ].map((tool) => {
+              const Icon = tool.icon;
+              return (
+                <button
+                  key={tool.id}
+                  type="button"
+                  id={`health-tool-btn-${tool.id}`}
+                  onClick={() => setHealthToolView(tool.id as any)}
+                  className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap shrink-0 flex items-center gap-1.5 ${
+                    healthToolView === tool.id
+                      ? 'bg-rose-700 text-white shadow-xs'
+                      : 'bg-white text-stone-700 hover:bg-stone-50 border border-stone-200/80'
+                  }`}
+                >
+                  <Icon className="w-3.5 h-3.5" />
+                  <span>{tool.label}</span>
+                </button>
+              );
+            })}
           </div>
 
-          {/* Cards List */}
-          {filteredHealthTopics.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 sm:gap-4">
-              {filteredHealthTopics.map((topic) => (
-                <HealthTopicCard key={topic.id} topic={topic} />
-              ))}
-            </div>
-          ) : (
-            <div className="bg-white rounded-2xl border border-stone-200 p-8 text-center">
-              <HelpCircle className="w-8 h-8 text-stone-400 mx-auto mb-2" />
-              <p className="text-sm font-semibold text-stone-800">Nessun argomento sanitario trovato</p>
-              <p className="text-xs text-stone-500 mt-1">Prova a cercare con altri termini (es. veleno, vaccino, calore).</p>
-              <button
-                type="button"
-                onClick={() => {
-                  setSearchQuery('');
-                  setHealthCategoryFilter('tutti');
-                }}
-                className="mt-3 text-xs font-semibold text-rose-700 bg-rose-50 px-3 py-1.5 rounded-lg"
-              >
-                Mostra tutte le guide
-              </button>
+          {/* 1. SOS Emergenze Castrignano del Capo & Salento */}
+          {(healthToolView === 'tutti' || healthToolView === 'sos') && (
+            <HealthEmergencyHub />
+          )}
+
+          {/* 2. Calcolatore Tossicità Cioccolato & Teobromina */}
+          {(healthToolView === 'tutti' || healthToolView === 'calcolatore') && (
+            <ChocolateToxicityCalculator />
+          )}
+
+          {/* 3. Triage Parametri Vitali */}
+          {(healthToolView === 'tutti' || healthToolView === 'parametri') && (
+            <PuppyVitalSignsChecker />
+          )}
+
+          {/* 4. Checklist Kit Primo Soccorso */}
+          {(healthToolView === 'tutti' || healthToolView === 'kit') && (
+            <FirstAidKitChecklist />
+          )}
+
+          {/* 5. Guide Sanitarie & Protocolli (Vaccini, Sterilizzazione, Forasacchi Salento, ecc.) */}
+          {(healthToolView === 'tutti' || healthToolView === 'guide') && (
+            <div className="space-y-3 pt-2">
+              <div className="flex items-center justify-between gap-2">
+                <div>
+                  <h3 className="text-base font-bold text-stone-900">
+                    Protocolli Clinici & Esempi di Cosa Potrebbe Accadere
+                  </h3>
+                  <p className="text-xs text-stone-500">
+                    Guide approfondite per prevenire e riconoscere le emergenze nel cucciolo
+                  </p>
+                </div>
+                <span className="text-xs font-bold text-stone-600 bg-stone-100 px-2.5 py-1 rounded-lg">
+                  {filteredHealthTopics.length} argomenti
+                </span>
+              </div>
+
+              {filteredHealthTopics.length > 0 ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 sm:gap-4">
+                  {filteredHealthTopics.map((topic) => (
+                    <HealthTopicCard key={topic.id} topic={topic} />
+                  ))}
+                </div>
+              ) : (
+                <div className="bg-white rounded-2xl border border-stone-200 p-8 text-center">
+                  <HelpCircle className="w-8 h-8 text-stone-400 mx-auto mb-2" />
+                  <p className="text-sm font-semibold text-stone-800">
+                    Nessun argomento sanitario trovato
+                  </p>
+                  <p className="text-xs text-stone-500 mt-1">
+                    Prova a cercare con altri termini (es. forasacchi, leishmania, veleno, vaccino).
+                  </p>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setSearchQuery('');
+                      setHealthCategoryFilter('tutti');
+                    }}
+                    className="mt-3 text-xs font-semibold text-rose-700 bg-rose-50 px-3 py-1.5 rounded-lg"
+                  >
+                    Mostra tutte le guide
+                  </button>
+                </div>
+              )}
             </div>
           )}
         </div>

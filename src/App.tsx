@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { MainSection, GuideSubSection, TrainingSession, PuppyProfile, CommandGuide } from './types';
-import { INITIAL_TRAINING_SESSIONS, BASIC_COMMANDS } from './data/trainingData';
+import { BASIC_COMMANDS } from './data/trainingData';
 import { Header } from './components/Header';
 import { BottomNav } from './components/BottomNav';
 import { GuideSection } from './components/GuideSection';
@@ -39,27 +39,24 @@ export default function App() {
     };
   });
 
-  // Sessions state with localStorage persistence
+  // Sessions state with localStorage persistence (cleans any leftover demo sessions)
   const [sessions, setSessions] = useState<TrainingSession[]>(() => {
     try {
       const saved = localStorage.getItem(SESSIONS_STORAGE_KEY);
       if (saved) {
         const parsed = JSON.parse(saved);
-        if (Array.isArray(parsed) && parsed.length > 0) {
-          const existingCommandIds = new Set(parsed.map((s: TrainingSession) => s.commandId));
-          const missingInitials = INITIAL_TRAINING_SESSIONS.filter(
-            (initSess) => !existingCommandIds.has(initSess.commandId)
+        if (Array.isArray(parsed)) {
+          // Filter out the legacy demo sessions (sess-1 through sess-5)
+          const cleanUserSessions = parsed.filter(
+            (s: TrainingSession) => !['sess-1', 'sess-2', 'sess-3', 'sess-4', 'sess-5'].includes(s.id)
           );
-          if (missingInitials.length > 0) {
-            return [...parsed, ...missingInitials];
-          }
-          return parsed;
+          return cleanUserSessions;
         }
       }
     } catch {
       // Fallback
     }
-    return INITIAL_TRAINING_SESSIONS;
+    return [];
   });
 
   // Modals state
@@ -98,9 +95,14 @@ export default function App() {
     setSessions((prev) => prev.filter((s) => s.id !== sessionId));
   };
 
-  const handleResetToDemoData = () => {
-    if (confirm('Vuoi ripristinare le sessioni di esempio iniziali? I tuoi dati attuali verranno sostituiti.')) {
-      setSessions(INITIAL_TRAINING_SESSIONS);
+  const handleClearAllSessions = () => {
+    if (confirm('Vuoi azzerare tutte le sessioni registrate? La cronologia e lo streak ripartiranno da zero.')) {
+      setSessions([]);
+      try {
+        localStorage.removeItem(SESSIONS_STORAGE_KEY);
+      } catch (e) {
+        console.warn(e);
+      }
     }
   };
 
@@ -135,7 +137,7 @@ export default function App() {
               sessions={sessions}
               onOpenNewSession={handleOpenLogWithCommand}
               onDeleteSession={handleDeleteSession}
-              onResetToDemoData={handleResetToDemoData}
+              onClearAllSessions={handleClearAllSessions}
             />
           )}
         </main>

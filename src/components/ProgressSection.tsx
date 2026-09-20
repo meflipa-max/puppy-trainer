@@ -25,7 +25,7 @@ interface ProgressSectionProps {
   sessions: TrainingSession[];
   onOpenNewSession: (command?: CommandGuide | null) => void;
   onDeleteSession: (sessionId: string) => void;
-  onResetToDemoData: () => void;
+  onClearAllSessions?: () => void;
 }
 
 export const ProgressSection: React.FC<ProgressSectionProps> = ({
@@ -33,7 +33,7 @@ export const ProgressSection: React.FC<ProgressSectionProps> = ({
   sessions,
   onOpenNewSession,
   onDeleteSession,
-  onResetToDemoData,
+  onClearAllSessions,
 }) => {
   const [filterCommand, setFilterCommand] = useState<string>('all');
   const [searchNotes, setSearchNotes] = useState<string>('');
@@ -467,17 +467,19 @@ export const ProgressSection: React.FC<ProgressSectionProps> = ({
           </div>
         )}
 
-        {/* Demo data reset option */}
+        {/* Footer info & optional clear history */}
         <div className="mt-4 pt-3 border-t border-stone-100 flex items-center justify-between text-xs text-stone-400">
           <span>Dati salvati in locale nel tuo dispositivo</span>
-          <button
-            type="button"
-            onClick={onResetToDemoData}
-            className="flex items-center gap-1 text-[11px] text-stone-500 hover:text-stone-800 transition-colors"
-          >
-            <RotateCcw className="w-3 h-3" />
-            Ripristina dati iniziali
-          </button>
+          {sessions.length > 0 && onClearAllSessions && (
+            <button
+              type="button"
+              onClick={onClearAllSessions}
+              className="flex items-center gap-1 text-[11px] text-rose-500 hover:text-rose-700 transition-colors font-medium"
+            >
+              <Trash2 className="w-3 h-3" />
+              Azzera tutte le sessioni
+            </button>
+          )}
         </div>
       </div>
     </div>

@@ -39,6 +39,7 @@ const ICON_MAP: Record<string, React.ElementType> = {
   Home,
   Bell,
   HandMetal,
+  Hand,
 };
 
 export const CommandDetailModal: React.FC<CommandDetailModalProps> = ({

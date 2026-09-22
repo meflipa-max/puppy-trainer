@@ -10,6 +10,7 @@ import {
   Home,
   Bell,
   HandMetal,
+  Hand,
   CheckCircle2,
   ChevronRight,
   PlusCircle,
@@ -35,6 +36,7 @@ const ICON_MAP: Record<string, React.ElementType> = {
   Home,
   Bell,
   HandMetal,
+  Hand,
 };
 
 export const CommandCard: React.FC<CommandCardProps> = ({
